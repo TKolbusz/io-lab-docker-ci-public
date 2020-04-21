@@ -22,8 +22,8 @@ SCHEMA_VCS_REF = $(shell git rev-parse --short HEAD)
 
 SCHEMA_BUILD_DATE = $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-SCHEMA_BUILD_VERSION = your app version - framework specyfic
-SCHEMA_CMD = the command your run this container with
+SCHEMA_BUILD_VERSION = 1
+SCHEMA_CMD = app
 
 all: push
 
@@ -39,11 +39,14 @@ image:
 		--build-arg SCHEMA_BUILD_DATE="$(SCHEMA_BUILD_DATE)" \
 		--build-arg SCHEMA_BUILD_VERSION="$(SCHEMA_BUILD_VERSION)" \
 		--build-arg SCHEMA_CMD="$(SCHEMA_CMD)" \
+		-t "tkolbusz/$(REPO_NAME)":latest \
+		.
 	
   # TODO: last part of this command that tags just built image with a specyfic tag
-	
+	docker tag "tkolbusz/$(REPO_NAME)" "tkolbusz/$(REPO_NAME):$(TAG)"
 push: image
-	# TODO: two commands, first pushes the latest image, second pushes the image tagged with specyfic tag
+	docker push "tkolbusz/$(REPO_NAME):$(TAG)"
+	docker push "tkolbusz/$(REPO_NAME):latest"
 	
 clean:
 
