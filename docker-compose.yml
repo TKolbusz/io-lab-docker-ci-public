@@ -18,5 +18,4 @@ services:
     image: redis:6.0-rc3
     volumes: 
       - ../data
-    # TODO: missing persistence for redis. You need to persist /data directory.
 
